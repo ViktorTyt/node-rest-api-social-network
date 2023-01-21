@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 // upd user
 router.put("/:id", async (req, res) => {
-  if (req.body.userId === req.params.id || req.user.isAdmin) {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
         const salt = await bcrypt.genSalt(10);
@@ -27,9 +27,77 @@ router.put("/:id", async (req, res) => {
   }
 });
 // delete user
+router.delete("/:id", async (req, res) => {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
+    try {
+      await User.findByIdAndRemove(req.params.id);
+      res.status(204).json("Account has been removed");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    return res.status(403).json("You can delete only your account");
+  }
+});
 // get a user
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { password, updatedAt, createdAt, ...others } = user._doc;
+    res.status(200).json(others);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 // follow a user
+
+router.put("/:id/follow", async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (!user.followers.includes(req.body.userId)) {
+        await user.updateOne({ $push: { followers: req.body.userId } });
+        await currentUser.updateOne({
+          $push: { followings: req.params.id },
+        });
+        res.status(200).json("user has been followed");
+      } else {
+        console.log("this one");
+        res.status(403).json("You allready follow this user");
+      }
+    } catch (error) {
+      console.log("this two");
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(403).json("You can't follow yourself");
+  }
+});
 // unfollow a user
+router.put("/:id/unfollow", async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (user.followers.includes(req.body.userId)) {
+        await user.updateOne({ $pull: { followers: req.body.userId } });
+        await currentUser.updateOne({
+          $pull: { followings: req.params.id },
+        });
+        res.status(200).json("user has been unfollowed");
+      } else {
+        console.log("this one");
+        res.status(403).json("You don't unfollow this user");
+      }
+    } catch (error) {
+      console.log("this two");
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(403).json("You can't unfollow yourself");
+  }
+});
 
 router.get("/", (req, res) => {
   res.send("hey its users router");
