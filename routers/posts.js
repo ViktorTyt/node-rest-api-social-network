@@ -66,12 +66,13 @@ router.get("/:id", async (req, res) => {
 });
 // get timeline posts
 router.get("/timeline/:userId", async (req, res) => {
+  console.log("timeline");
   try {
-    console.log("first");
+    if (!req.params.userId) {
+      throw new Error("userId don't passed");
+    }
     const currentUser = await User.findById(req.params.userId);
-    console.log("second");
     const userPosts = await Post.find({ userId: currentUser._id });
-    console.log("third");
     const friendsPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
         return Post.find({ userId: friendId });
@@ -80,14 +81,16 @@ router.get("/timeline/:userId", async (req, res) => {
 
     res.status(200).json(userPosts.concat(...friendsPosts));
   } catch (error) {
-    console.log("here");
+    // console.log("here");
     res.status(500).json(error);
   }
 });
 
 // get user`s all posts
 router.get("/profile/:username", async (req, res) => {
+  console.log("profile");
   try {
+    console.log("first");
     const user = await User.findOne({ username: req.params.username });
     const posts = await Post.find({ userId: user._id });
 
