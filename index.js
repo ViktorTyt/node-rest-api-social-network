@@ -23,8 +23,12 @@ mongoose.connect(process.env.MONGO_URL, () => {
 });
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+
 app.use(express.json());
 app.use(logger(formatsLogger));
+
 // middlewares
 app.use(cors());
 app.use(
@@ -32,12 +36,14 @@ app.use(
 );
 app.use(morgan("common"));
 
+// multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/temp");
+    cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    console.log(req);
+    cb(null, req.body.name);
   },
 });
 
@@ -50,7 +56,6 @@ app.use("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
-app.use("/images", express.static(path.join(__dirname, "/public/images")));
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
