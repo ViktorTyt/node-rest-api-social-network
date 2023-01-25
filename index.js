@@ -8,12 +8,12 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const logger = require("morgan");
+const multer = require("multer");
+const path = require("path");
 
 const userRoute = require("./routers/users");
 const authRoute = require("./routers/auth");
 const postRoute = require("./routers/posts");
-
-app.use(express.json());
 
 dotenv.config();
 
@@ -23,13 +23,34 @@ mongoose.connect(process.env.MONGO_URL, () => {
 });
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-
+app.use(express.json());
 app.use(logger(formatsLogger));
 // middlewares
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet({ crossOriginResourcePolicy: false, crossOriginEmbedderPolicy: false })
+);
 app.use(morgan("common"));
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/temp");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+app.use("/api/upload", upload.single("file"), (req, res) => {
+  try {
+    return res.status(200).json("File uploaded successfully!");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.use("/images", express.static(path.join(__dirname, "/public/images")));
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
