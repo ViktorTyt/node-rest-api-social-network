@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 
@@ -82,8 +82,13 @@ router.put("/:id/follow", async (req, res) => {
   if (req.body.userId !== req.params.id) {
     try {
       const user = await User.findById(req.params.id);
+      console.log("first");
       const currentUser = await User.findById(req.body.userId);
+      console.log("second");
+
       if (!user.followers.includes(req.body.userId)) {
+        console.log("third");
+
         await user.updateOne({ $push: { followers: req.body.userId } });
         await currentUser.updateOne({
           $push: { followings: req.params.id },
