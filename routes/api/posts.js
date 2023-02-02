@@ -1,17 +1,19 @@
-const Post = require("../../models/Post");
-const User = require("../../models/User");
+const { createPost, updatePostImage } = require("../../controllers/posts");
+const { ctrlWrapper, upload } = require("../../helpers");
+const { authenticate, fileLoader } = require("../../middlewares");
+const Post = require("../../models/post");
+const { UserModel } = require("../../models/user");
 const router = require("express").Router();
 
 // create a post
-router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
-  try {
-    const savedPost = await newPost.save();
-    res.status(201).json(savedPost);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.post(
+  "/",
+  authenticate,
+  upload.single("postImg"),
+  ctrlWrapper(createPost),
+  ctrlWrapper(fileLoader),
+  ctrlWrapper(updatePostImage)
+);
 // update a post
 router.put("/:id", async (req, res) => {
   try {
