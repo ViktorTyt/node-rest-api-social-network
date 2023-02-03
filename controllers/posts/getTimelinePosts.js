@@ -1,4 +1,5 @@
 const Post = require("../../models/post");
+const { UserModel } = require("../../models/user");
 
 const getTimelinePosts = async (req, res) => {
   console.log("timeline");

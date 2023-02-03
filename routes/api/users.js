@@ -9,13 +9,13 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const { schemas } = require("../../models/user");
 
 // update user
-router.put("/:id", authenticate, ctrlWrapper(ctrl.updateUser));
+// router.put("/:id", authenticate, ctrlWrapper(ctrl.updateUser));
 
-// delete user
-router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));
+// // delete user
+// router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));
 
 // get user my version
-router.get("/:id", authenticate, ctrlWrapper(ctrl.getUser));
+router.get("/:id", ctrlWrapper(ctrl.getUser));
 
 //  get friends
 router.get("/friends/:userId", authenticate, ctrlWrapper(ctrl.getFriends));

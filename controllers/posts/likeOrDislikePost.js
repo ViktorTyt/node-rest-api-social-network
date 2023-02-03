@@ -1,6 +1,7 @@
 const Post = require("../../models/post");
 
 const likeOrDislikePost = async (req, res) => {
+  console.log(" in line 4 like", req.body.userId);
   try {
     const post = await Post.findById(req.params.id);
     if (!post.likes.includes(req.body.userId)) {

@@ -23,7 +23,7 @@ router.put("/:id", authenticate, ctrlWrapper(ctrl.updatePost));
 router.delete("/:id", authenticate, ctrlWrapper(ctrl.deletePost));
 
 // like or dislike a post
-router.put("/:id/like", authenticate, ctrlWrapper(ctrl.likeOrDislikePost));
+router.patch("/:id/like", authenticate, ctrlWrapper(ctrl.likeOrDislikePost));
 
 // get a post
 router.get("/:id", authenticate, ctrlWrapper(ctrl.getPost));
