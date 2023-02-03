@@ -20,7 +20,7 @@ const authenticate = async (req, res, next) => {
         throw Error("Unauthorized");
       }
       req.user = user;
-      console.log(req.user);
+      // console.log(req.user);
 
       next();
     } catch (error) {

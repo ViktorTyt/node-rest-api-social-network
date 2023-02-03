@@ -1,159 +1,29 @@
-const { UserModel } = require("../../models/user");
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
 
-// upd user
-// router.put("/:id", async (req, res) => {
-//   if (req.body.userId === req.params.id || req.body.isAdmin) {
-//     if (req.body.password) {
-//       try {
-//         const salt = await bcrypt.genSalt(10);
-//         req.body.password = await bcrypt.hash(req.body.password, salt);
-//       } catch (error) {
-//         return res.status(500).json(error);
-//       }
-//     }
+const ctrl = require("../../controllers/users");
 
-//     try {
-//       const user = await User.findByIdAndUpdate(req.params.id, {
-//         $set: req.body,
-//       });
-//       res.status(200).json("Account has been updated");
-//     } catch (error) {
-//       res.status(500).json(error);
-//     }
-//   } else {
-//     return res.status(403).json("You can update only your account");
-//   }
-// });
+const { ctrlWrapper } = require("../../helpers");
+
+const { validateBody, authenticate, upload } = require("../../middlewares");
+
+const { schemas } = require("../../models/user");
+
+// update user
+router.put("/:id", authenticate, ctrlWrapper(ctrl.updateUser));
+
 // delete user
-// router.delete("/:id", async (req, res) => {
-//   if (req.body.userId === req.params.id || req.body.isAdmin) {
-//     try {
-//       await User.findByIdAndRemove(req.params.id);
-//       res.status(204).json("Account has been removed");
-//     } catch (error) {
-//       res.status(500).json(error);
-//     }
-//   } else {
-//     return res.status(403).json("You can delete only your account");
-//   }
-// });
-// get a user
-// router.get("/", async (req, res) => {
-//   const userId = req.query.userId;
-//   const username = req.query.username;
-//   try {
-//     const user = userId
-//       ? await User.findById(userId)
-//       : await User.findOne({ username: username });
-
-//     const { password, updatedAt, ...others } = user._doc;
-//     res.status(200).json(others);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));
 
 // get user my version
-router.get("/:id", async (req, res) => {
-  const _id = req.params.id;
-
-  // const username = req.query.username;
-  try {
-    const user = await UserModel.findById(_id);
-    res.status(200).json({
-      code: 200,
-      status: "Success",
-      data: {
-        name: user.name,
-        profilePicture: user.profilePicture,
-      },
-      message: "request completed successfully",
-    });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.get("/:id", authenticate, ctrlWrapper(ctrl.getUser));
 
 //  get friends
-// router.get("/friends/:userId", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.userId);
-//     const friends = await Promise.all(
-//       user.followings.map((friendId) => {
-//         return User.findById(friendId);
-//       })
-//     );
-
-//     let friendList = [];
-//     friends.map((friend) => {
-//       const { _id, username, profilePicture } = friend;
-//       friendList.push({ _id, username, profilePicture });
-//     });
-
-//     res.status(200).json(friendList);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+router.get("/friends/:userId", authenticate, ctrlWrapper(ctrl.getFriends));
 
 // follow a user
-// router.put("/:id/follow", async (req, res) => {
-//   if (req.body.userId !== req.params.id) {
-//     try {
-//       const user = await User.findById(req.params.id);
-//       console.log("first");
-//       const currentUser = await User.findById(req.body.userId);
-//       console.log("second");
+router.put("/:id/follow", authenticate, ctrlWrapper(ctrl.followUser));
 
-//       if (!user.followers.includes(req.body.userId)) {
-//         console.log("third");
-
-//         await user.updateOne({ $push: { followers: req.body.userId } });
-//         await currentUser.updateOne({
-//           $push: { followings: req.params.id },
-//         });
-//         res.status(200).json("user has been followed");
-//       } else {
-//         console.log("this one");
-//         res.status(403).json("You allready follow this user");
-//       }
-//     } catch (error) {
-//       console.log("this two");
-//       res.status(500).json(error);
-//     }
-//   } else {
-//     res.status(403).json("You can't follow yourself");
-//   }
-// });
 // unfollow a user
-// router.put("/:id/unfollow", async (req, res) => {
-//   if (req.body.userId !== req.params.id) {
-//     try {
-//       const user = await User.findById(req.params.id);
-//       const currentUser = await User.findById(req.body.userId);
-//       if (user.followers.includes(req.body.userId)) {
-//         await user.updateOne({ $pull: { followers: req.body.userId } });
-//         await currentUser.updateOne({
-//           $pull: { followings: req.params.id },
-//         });
-//         res.status(200).json("user has been unfollowed");
-//       } else {
-//         console.log("this one");
-//         res.status(403).json("You don't unfollow this user");
-//       }
-//     } catch (error) {
-//       console.log("this two");
-//       res.status(500).json(error);
-//     }
-//   } else {
-//     res.status(403).json("You can't unfollow yourself");
-//   }
-// });
-
-// router.get("/", (req, res) => {
-//   res.send("hey its users router");
-// });
+router.put("/:id/unfollow", authenticate, ctrlWrapper(ctrl.unfollowUser));
 
 module.exports = router;

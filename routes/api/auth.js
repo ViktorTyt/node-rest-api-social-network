@@ -10,6 +10,7 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
+// register a new user
 router.post(
   "/register",
   validateBody(schemas.registerSchema),
@@ -24,14 +25,17 @@ router.post(
   ctrlWrapper(ctrl.resendVerify)
 );
 
+// login
 router.post(
   "/login",
   validateBody(schemas.loginSchema),
   ctrlWrapper(ctrl.login)
 );
 
+// get current user
 router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
 
+// logout
 router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
 
 router.patch(
@@ -40,12 +44,5 @@ router.patch(
   validateBody(schemas.updateStatusSchema),
   ctrlWrapper(ctrl.updateUserSubcription)
 );
-
-// router.patch(
-//   "/avatars",
-//   authenticate,
-//   upload.single("avatar"),
-//   ctrlWrapper(ctrl.updateAvatar)
-// );
 
 module.exports = router;

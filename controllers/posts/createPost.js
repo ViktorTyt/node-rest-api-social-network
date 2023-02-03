@@ -14,7 +14,7 @@ const crePost = async (userID, post) => {
 const createPost = async (req, res, next) => {
   const user = req.user;
 
-  const post = req.bodyls; // замість пет
+  const post = req.body; // замість пет
 
   const newPost = await crePost(user._id, post);
 
