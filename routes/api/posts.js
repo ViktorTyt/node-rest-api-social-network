@@ -74,7 +74,7 @@ router.get("/timeline/:userId", async (req, res) => {
       throw new Error("userId don't passed");
     }
     console.log(req.params.userId);
-    const currentUser = await User.findById(req.params.userId);
+    const currentUser = await UserModel.findById(req.params.userId);
 
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendsPosts = await Promise.all(
