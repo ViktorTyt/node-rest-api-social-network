@@ -7,6 +7,8 @@ const getTimelinePosts = require("./getTimelinePosts");
 const getAllPostsByUser = require("./getAllPostsByUser");
 const likeOrDislikePost = require("./likeOrDislikePost");
 const createPostComment = require("./createPostComment");
+const getCommentById = require("./getCommentById");
+const getCommentsByPost = require("./getCommentsByPost");
 
 module.exports = {
   getPost,
@@ -18,4 +20,6 @@ module.exports = {
   getAllPostsByUser,
   likeOrDislikePost,
   createPostComment,
+  getCommentById,
+  getCommentsByPost,
 };

@@ -41,7 +41,12 @@ router.get(
   authenticate,
   ctrlWrapper(ctrl.getAllPostsByUser)
 );
-
+// add new comment
 router.post("/comments", authenticate, ctrlWrapper(ctrl.createPostComment));
+
+// get a comment by id
+router.get("/comments/:id", authenticate, ctrlWrapper(ctrl.getCommentById));
+// get a comment by postId
+router.get("/:id/comments", authenticate, ctrlWrapper(ctrl.getCommentsByPost));
 
 module.exports = router;
