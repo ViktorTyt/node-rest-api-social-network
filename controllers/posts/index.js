@@ -6,6 +6,7 @@ const deletePost = require("./deletePost");
 const getTimelinePosts = require("./getTimelinePosts");
 const getAllPostsByUser = require("./getAllPostsByUser");
 const likeOrDislikePost = require("./likeOrDislikePost");
+const createPostComment = require("./createPostComment");
 
 module.exports = {
   getPost,
@@ -16,4 +17,5 @@ module.exports = {
   getTimelinePosts,
   getAllPostsByUser,
   likeOrDislikePost,
+  createPostComment,
 };

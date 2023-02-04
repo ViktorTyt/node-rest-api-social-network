@@ -35,6 +35,10 @@ const userSchema = new Schema(
       type: Array,
       default: [],
     },
+    comments: {
+      type: Array,
+      default: [],
+    },
     followings: {
       type: Array,
       default: [],

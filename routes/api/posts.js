@@ -42,4 +42,6 @@ router.get(
   ctrlWrapper(ctrl.getAllPostsByUser)
 );
 
+router.post("/comments", authenticate, ctrlWrapper(ctrl.createPostComment));
+
 module.exports = router;
