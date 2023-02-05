@@ -2,14 +2,20 @@ const router = require("express").Router();
 
 const ctrl = require("../../controllers/users");
 
-const { ctrlWrapper } = require("../../helpers");
+const { ctrlWrapper, upload } = require("../../helpers");
 
-const { validateBody, authenticate, upload } = require("../../middlewares");
+const { validateBody, authenticate, fileLoader } = require("../../middlewares");
 
 const { schemas } = require("../../models/user");
 
 // update user
-// router.put("/:id", authenticate, ctrlWrapper(ctrl.updateUser));
+router.put(
+  "/:id",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(fileLoader),
+  ctrlWrapper(ctrl.updateUser)
+);
 
 // // delete user
 // router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));

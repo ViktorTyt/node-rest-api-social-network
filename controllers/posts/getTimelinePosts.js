@@ -17,7 +17,11 @@ const getTimelinePosts = async (req, res) => {
       })
     );
 
-    res.status(200).json(userPosts.concat(...friendsPosts));
+    res.status(200).json(
+      userPosts.concat(...friendsPosts).sort((post1, post2) => {
+        return new Date(post2.createdAt) - new Date(post1.createdAt);
+      })
+    );
   } catch (error) {
     // console.log("here");
     res.status(500).json(error);

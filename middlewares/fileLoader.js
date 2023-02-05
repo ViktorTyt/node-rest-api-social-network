@@ -4,7 +4,7 @@ const { addAvatar, setAvatarURL } = require("../services");
 const whitelist = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
 
 const fileLoader = async (req, res, next) => {
-  console.log(" line 7 in file loader".yellow.bold.italic);
+  console.log(" line 7 in file loader".yellow.bold.italic, req.file.fieldname);
   const { fileTypeFromFile } = await import("file-type");
   console.log(" line 9 in file loader".yellow.bold.italic, fileTypeFromFile);
 
@@ -14,6 +14,8 @@ const fileLoader = async (req, res, next) => {
     return;
   }
   const result = req.result;
+  console.log(" line 17 in file loader".yellow.bold.italic, result);
+
   const { filename } = req.file;
   const URL = req.originalUrl;
 
@@ -37,7 +39,7 @@ const fileLoader = async (req, res, next) => {
 
   const postImageURL = await setAvatarURL(postImage, destination);
   req.postImageURL = postImageURL;
-  console.log("in file loader:".yellow.bold.italic, postImageURL);
+  console.log("line 42 in file loader:".yellow.bold.italic, postImageURL);
   next();
 };
 
