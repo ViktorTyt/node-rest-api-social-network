@@ -7,7 +7,7 @@ const ctrlWrapper = (ctrl) => {
     }
   };
 
-  // console.log("line 14");
+  // console.log("line 14".magenta.bold.italic);
   return func;
 };
 

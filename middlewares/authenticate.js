@@ -7,6 +7,8 @@ const { UserModel } = require("../models/user");
 const { SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
+  // console.log("in li 10 auth:", req);
+
   try {
     const { authorization = "" } = req.headers;
     const [bearer = "", token = ""] = authorization.split(" ");

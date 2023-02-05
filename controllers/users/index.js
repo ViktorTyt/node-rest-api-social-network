@@ -4,6 +4,7 @@ const followUser = require("./followUser");
 const unfollowUser = require("./unfollowUser");
 const deleteUser = require("./deleteUser");
 const updateUser = require("./updateUser");
+const updateUserCover = require("./updateUserCover");
 
 module.exports = {
   getUser,
@@ -12,4 +13,5 @@ module.exports = {
   unfollowUser,
   deleteUser,
   updateUser,
+  updateUserCover,
 };

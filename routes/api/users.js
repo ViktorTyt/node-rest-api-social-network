@@ -17,6 +17,14 @@ router.put(
   ctrlWrapper(ctrl.updateUser)
 );
 
+router.patch(
+  "/upload",
+  authenticate,
+  upload.single("cover"),
+  ctrlWrapper(fileLoader),
+  ctrlWrapper(ctrl.updateUserCover)
+);
+
 // // delete user
 // router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));
 
