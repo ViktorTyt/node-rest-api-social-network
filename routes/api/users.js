@@ -18,11 +18,19 @@ router.put(
 );
 
 router.patch(
-  "/upload",
+  "/cover",
   authenticate,
   upload.single("cover"),
   ctrlWrapper(fileLoader),
   ctrlWrapper(ctrl.updateUserCover)
+);
+
+router.patch(
+  "/avatar",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(fileLoader),
+  ctrlWrapper(ctrl.updateUserAvatar)
 );
 
 // // delete user

@@ -1,6 +1,6 @@
 const { UserModel } = require("../../models/user");
 
-const updateUserCover = async (req, res) => {
+const updateUserAvatar = async (req, res) => {
   // console.log(req.user);
   // console.log(req.result);
   console.log(req.params.picture);
@@ -8,9 +8,9 @@ const updateUserCover = async (req, res) => {
   console.log(req.file.fieldname);
 
   try {
-    const user = await UserModel.findByIdAndUpdate(
+    const user = await UserModel.findOneAndUpdate(
       { _id: req.user._id },
-      { coverPicture: req.postImageURL },
+      { profilePicture: req.postImageURL },
       { new: true }
     );
     if (!user) {
@@ -33,4 +33,4 @@ const updateUserCover = async (req, res) => {
   }
 };
 
-module.exports = updateUserCover;
+module.exports = updateUserAvatar;

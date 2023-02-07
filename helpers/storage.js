@@ -22,7 +22,7 @@ const upload = multer({
     if (!whitelist.includes(file.mimetype)) {
       return cb(new Error("file is not allowed"));
     }
-    console.log("file 25:", file);
+    console.log("file in storage 25:".yellow.bold.itali, file);
 
     cb(null, true);
   },
