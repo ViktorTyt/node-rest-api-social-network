@@ -12,8 +12,7 @@ const getUser = async (req, res) => {
       code: 200,
       status: "Success",
       data: {
-        name: user.name,
-        profilePicture: user.profilePicture,
+        user,
       },
       message: "request completed successfully",
     });

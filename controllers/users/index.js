@@ -6,6 +6,7 @@ const deleteUser = require("./deleteUser");
 const updateUser = require("./updateUser");
 const updateUserCover = require("./updateUserCover");
 const updateUserAvatar = require("./updateUserAvatar");
+const getSuggestedFriends = require("./getSuggestedFriends");
 
 module.exports = {
   getUser,
@@ -16,4 +17,5 @@ module.exports = {
   updateUser,
   updateUserCover,
   updateUserAvatar,
+  getSuggestedFriends,
 };

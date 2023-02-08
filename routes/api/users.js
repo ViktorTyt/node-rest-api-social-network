@@ -33,6 +33,8 @@ router.patch(
   ctrlWrapper(ctrl.updateUserAvatar)
 );
 
+// router.get("/suggested", authenticate, ctrlWrapper(ctrl.getSuggestedFriends));
+
 // // delete user
 // router.delete("/:id", authenticate, ctrlWrapper(ctrl.deleteUser));
 

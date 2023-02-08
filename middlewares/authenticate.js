@@ -24,6 +24,7 @@ const authenticate = async (req, res, next) => {
       req.user = user;
 
       req.result = user;
+      console.log(" line 4 in authenticate".yellow.bold.italic);
 
       // console.log(req.user);
 
