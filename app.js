@@ -6,6 +6,8 @@ require("dotenv").config();
 const authRouter = require("./routes/api/auth");
 const usersRouter = require("./routes/api/users");
 const postsRouter = require("./routes/api/posts");
+const conversationsRouter = require("./routes/api/conversations");
+const messagesRouter = require("./routes/api/messages");
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(express.static("public"));
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
+app.use("/api/conversations", conversationsRouter);
+app.use("/api/messages", messagesRouter);
 
 app.use((req, res) => {
   console.log(req);
