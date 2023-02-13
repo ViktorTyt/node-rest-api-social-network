@@ -1,7 +1,9 @@
-const { UserModel } = "../../models/user.js";
+const { UserModel } = require("../../models/user.js");
 
 const followUser = async (req, res) => {
   if (req.body.userId !== req.params.id) {
+    console.log(req.body.userId);
+    console.log(req.params.id);
     try {
       const user = await UserModel.findById(req.params.id);
       console.log("first");
@@ -12,9 +14,11 @@ const followUser = async (req, res) => {
         console.log("third");
 
         await user.updateOne({ $push: { followers: req.body.userId } });
+        console.log("fourth");
         await currentUser.updateOne({
           $push: { followings: req.params.id },
         });
+        console.log("fifth");
         res.status(200).json("user has been followed");
       } else {
         console.log("this one");

@@ -1,7 +1,7 @@
 const { UserModel } = require("../../models/user");
 
 const getFriends = async (req, res) => {
-  console.log(" line 4 in getFriends".yellow.bold.italic, req.params.userId);
+  // console.log(" line 4 in getFriends".yellow.bold.italic, req.params.userId);
   // const _id = req.params.userId;
   try {
     if (!req.params.userId) {
@@ -16,7 +16,7 @@ const getFriends = async (req, res) => {
       })
     );
 
-    console.log(currentUser);
+    // console.log(currentUser);
 
     let friendList = [];
     friends.map((friend) => {

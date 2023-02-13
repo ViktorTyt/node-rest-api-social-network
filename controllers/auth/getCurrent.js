@@ -1,5 +1,13 @@
 const getCurrent = async (req, res) => {
-  const { _id, name, email, profilePicture, coverPicture } = req.user;
+  const {
+    _id,
+    name,
+    email,
+    profilePicture,
+    coverPicture,
+    followings,
+    followers,
+  } = req.user;
   res.json({
     code: 200,
     status: "success",
@@ -10,6 +18,8 @@ const getCurrent = async (req, res) => {
       email,
       profilePicture,
       coverPicture,
+      followings,
+      followers,
     },
   });
 };

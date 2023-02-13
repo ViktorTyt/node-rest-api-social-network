@@ -1,4 +1,4 @@
-const { UserModel } = "../../models/user.js";
+const { UserModel } = require("../../models/user.js");
 
 const unfollowUser = async (req, res) => {
   if (req.body.userId !== req.params.id) {

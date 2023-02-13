@@ -25,8 +25,8 @@ app.use("/api/conversations", conversationsRouter);
 app.use("/api/messages", messagesRouter);
 
 app.use((req, res) => {
-  console.log(req);
-  console.log("in app 24-th line".red.bold.italic);
+  console.log(req.params);
+  console.log("in app 24-th line".magenta.bold.italic);
   res.status(404).json({ message: "Not found" });
 });
 

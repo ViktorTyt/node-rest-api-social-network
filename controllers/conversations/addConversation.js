@@ -1,6 +1,8 @@
 const Conversation = require("../../models/conversation");
 
 const addConversation = async (req, res) => {
+  console.log(req.body);
+  console.log("conv");
   const newConversation = new Conversation({
     members: [req.body.senderId, req.body.receiverId],
   });
